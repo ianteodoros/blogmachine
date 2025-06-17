@@ -4,6 +4,10 @@ export default async function handler(req, res) {
   const { topic, tone } = req.body;
   const prompt = `Scrie un articol de blog cu ton ${tone}, pe tema: ${topic}.`;
 
+  if (!process.env.OPENAI_API_KEY) {
+    return res.status(500).json({ error: "Cheia OpenAI nu este setată." });
+  }
+
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
