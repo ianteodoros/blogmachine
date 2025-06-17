@@ -21,7 +21,7 @@ export default function Home() {
       <h1>BlogMachine</h1>
       <form onSubmit={handleSubmit}>
         <input value={topic} onChange={e => setTopic(e.target.value)} placeholder="Subiect" />
-        <input value={tone} onChange={e => setTone(e.target.value)} placeholder="Ton (formal, relaxat...)" />
+        <input value={tone} onChange={e => setTone(e.target.value)} placeholder="Ton (formal, relaxat…)" />
         <button type="submit">Generează</button>
       </form>
       <pre>{result}</pre>
