@@ -10,9 +10,7 @@ export default function Home() {
 
     const res = await fetch('/api/generate', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topic, tone }),
     });
 
@@ -21,24 +19,24 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
-      <h1>BlogMachine</h1>
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1>📝 BlogMachine</h1>
       <form onSubmit={handleSubmit}>
         <input
           value={topic}
-          onChange={(e) => setTopic(e.target.value)}
+          onChange={e => setTopic(e.target.value)}
           placeholder="Subiect"
-          style={{ marginRight: '0.5rem' }}
+          required
         />
         <input
           value={tone}
-          onChange={(e) => setTone(e.target.value)}
+          onChange={e => setTone(e.target.value)}
           placeholder="Ton (formal, relaxat...)"
-          style={{ marginRight: '0.5rem' }}
+          required
         />
         <button type="submit">Generează</button>
       </form>
-      <pre style={{ marginTop: '2rem', whiteSpace: 'pre-wrap' }}>{result}</pre>
+      <pre>{result}</pre>
     </div>
   );
 }
