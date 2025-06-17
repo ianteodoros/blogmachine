@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== "POST") return res.status(405).end();
 
   const { topic, tone } = req.body;
   const prompt = `Scrie un articol de blog cu ton ${tone}, pe tema: ${topic}.`;
