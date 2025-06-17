@@ -1,26 +1,30 @@
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+import { useState } from 'react';
 
-  const { topic, tone } = req.body;
-  const prompt = `Scrie un articol de blog cu ton ${tone}, pe tema: ${topic}`;
+export default function Home() {
+  const [topic, setTopic] = useState('');
+  const [tone, setTone] = useState('');
+  const [result, setResult] = useState('');
 
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
-      }),
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic, tone }),
     });
-
-    const data = await response.json();
-    res.status(200).json({ result: data.choices?.[0]?.message?.content || "Nimic generat." });
-  } catch {
-    res.status(500).json({ error: "Eroare la generare." });
+    const data = await res.json();
+    setResult(data.result || data.error || 'Nimic generat.');
   }
+
+  return (
+    <div>
+      <h1>BlogMachine</h1>
+      <form onSubmit={handleSubmit}>
+        <input value={topic} onChange={e => setTopic(e.target.value)} placeholder="Subiect" />
+        <input value={tone} onChange={e => setTone(e.target.value)} placeholder="Ton (formal, relaxat...)" />
+        <button type="submit">Generează</button>
+      </form>
+      <pre>{result}</pre>
+    </div>
+  );
 }
